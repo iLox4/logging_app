@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from "cors";
 import { translationWbAddBodySchema, translationWbListQuerySchema } from './src/validation/schemas';
-import { addTranslationWbRecord, listTranslationWbRecords } from './db/handlers/translationWbHandlers';
+import { addTranslationWbRecord, getTranslationWbStats, listTranslationWbRecords } from './db/handlers/translationWbHandlers';
 
 const port = process.env.PORT || 3000;
 
@@ -40,15 +40,32 @@ app.get("/log/list/:appName", async (req: Request, res: Response) => {
             try {
                 await translationWbListQuerySchema.validateAsync(requestQuery);
 
-                const { rows } = await listTranslationWbRecords(requestQuery);
+                const result = await listTranslationWbRecords(requestQuery);
                 
-                if (rows.length === 0) {
+                if (result.length === 0) {
                     res.status(404).send("Records were not found!");
                 } else {
-                    res.status(200).send(rows);
+                    res.status(200).send(result);
                 }
             } catch (error: any) {
                 console.error("ERROR: ", error.message);
+                res.status(400).send(error.message);
+            }
+            break;
+        default:
+            res.status(400).send("Invalid app name");
+    }
+});
+
+app.get("/log/stats/:appName", async (req: Request, res: Response) => {
+    const { appName } = req.params;
+
+    switch (appName.trim().toLowerCase()) {
+        case "translation-wb":
+            try {
+                const result = await getTranslationWbStats();
+                res.status(200).send(result);
+            } catch (error: any) {
                 res.status(400).send(error.message);
             }
             break;
