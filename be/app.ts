@@ -21,7 +21,7 @@ app.post("/log/add", async (req: Request, res: Response) => {
             try {
                 await translationWbAddBodySchema.validateAsync(rest);
                 await addTranslationWbRecord(rest.userId, rest.action, rest.success, rest.fileOptions);
-                res.status(200).send("Ok");
+                res.status(200).send("Log was successfuly saved");
             } catch (error: any) {
                 res.status(400).send(error.message);
             }
