@@ -1,0 +1,1 @@
+export const sortsKeys = ["sortBy", "sortOrder"];

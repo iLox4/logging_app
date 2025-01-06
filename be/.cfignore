@@ -1,0 +1,5 @@
+dist
+node_modules
+coverage
+default-env.json
+local-test-env.ts
