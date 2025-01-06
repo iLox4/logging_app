@@ -16,7 +16,7 @@ app.use(express.json());
 app.post("/log/add", async (req: Request, res: Response) => {
     const { appName, ...rest } = req.body;
 
-    switch (appName) {
+    switch (appName.trim().toLowerCase()) {
         case "translation-wb":
             try {
                 await translationWbAddBodySchema.validateAsync(rest);
@@ -35,15 +35,18 @@ app.get("/log/list/:appName", async (req: Request, res: Response) => {
     const { appName } = req.params;
     const requestQuery = req.query;
 
-    switch (appName) {
+    switch (appName.trim().toLowerCase()) {
         case "translation-wb":
             try {
-                const value = await translationWbListQuerySchema.validateAsync(requestQuery);
-                // TO DELETE
-                console.log(value);
+                await translationWbListQuerySchema.validateAsync(requestQuery);
 
-                const result = await listTranslationWbRecords(requestQuery);
-                res.status(200).send(result);
+                const { rows } = await listTranslationWbRecords(requestQuery);
+                
+                if (rows.length === 0) {
+                    res.status(404).send("Records were not found!");
+                } else {
+                    res.status(200).send(rows);
+                }
             } catch (error: any) {
                 console.error("ERROR: ", error.message);
                 res.status(400).send(error.message);
