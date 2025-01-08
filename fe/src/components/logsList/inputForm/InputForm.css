@@ -1,0 +1,15 @@
+.inputForm {
+    display: flex;
+    flex-direction: row;
+    max-width: 50%;
+    gap: 24px;
+    /* justify-content: space-between; */
+    margin: 12px 0;
+}
+
+.inputFormColumn {
+    display: flexbox;
+    direction: row;
+    flex: 1;
+    padding: auto;
+}

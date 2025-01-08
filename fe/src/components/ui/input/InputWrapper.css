@@ -1,0 +1,12 @@
+.input {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input input, .input select {
+    font-family: monospace;
+    font-size: large;
+    padding: 0;
+
+}
