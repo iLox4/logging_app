@@ -14,6 +14,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -70,4 +75,9 @@ button:focus-visible {
 #root {
   width: 100%;
   height: 100%;
+}
+
+h3 {
+  font-size: x-large;
+  font-weight: 500;
 }
